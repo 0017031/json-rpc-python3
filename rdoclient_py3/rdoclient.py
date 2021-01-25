@@ -1447,7 +1447,7 @@ class RandomOrgClient(object):
         http://docs.python-requests.org/en/v2.0-0/user/quickstart/#errors-and-exceptions
         """
         if self._requests_left is None or \
-            time.clock() > self._last_response_received_time + \
+            time.perf_counter() > self._last_response_received_time + \
                 _ALLOWANCE_STATE_REFRESH_SECONDS:
             self._get_usage()
         
@@ -1485,7 +1485,7 @@ class RandomOrgClient(object):
         http://docs.python-requests.org/en/v2.0-0/user/quickstart/#errors-and-exceptions
         """
         if self._bits_left is None or \
-            time.clock() > self._last_response_received_time + \
+            time.perf_counter() > self._last_response_received_time + \
                 _ALLOWANCE_STATE_REFRESH_SECONDS:
             self._get_usage()
         
@@ -1585,7 +1585,7 @@ class RandomOrgClient(object):
         # Check server advisory delay.
         self._advisory_delay_lock.acquire()
         wait = self._advisory_delay - (
-            time.clock() - self._last_response_received_time
+            time.perf_counter() - self._last_response_received_time
         )
         self._advisory_delay_lock.release()
         
@@ -1687,7 +1687,7 @@ class RandomOrgClient(object):
             # Use default if none from server.
             self._advisory_delay = _DEFAULT_DELAY
         
-        self._last_response_received_time = time.clock()
+        self._last_response_received_time = time.perf_counter()
         
         self._advisory_delay_lock.release()
         
